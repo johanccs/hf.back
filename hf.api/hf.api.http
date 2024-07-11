@@ -1,0 +1,6 @@
+@hf.api_HostAddress = http://localhost:5166
+
+GET {{hf.api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
