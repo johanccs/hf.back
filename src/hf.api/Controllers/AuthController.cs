@@ -16,5 +16,8 @@ namespace hf.api.Controllers
 
             return Ok(new LoginResponse(true));
         }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> CreateUser([FromBody])
     }
 }
