@@ -17,7 +17,11 @@ namespace hf.api.Controllers
             return Ok(new LoginResponse(true));
         }
 
+        [Route("Create")]
         [HttpPost("register")]
-        public async Task<IActionResult> CreateUser([FromBody])
+        public async Task<IActionResult> CreateUser([FromBody] NewUserRequest request)
+        {
+            return Ok(new CreatedUserResponse("Success"));
+        }
     }
 }
