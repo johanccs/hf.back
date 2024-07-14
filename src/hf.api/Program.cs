@@ -1,5 +1,9 @@
 
 using Asp.Versioning;
+using HealthChecks.UI.Client;
+using HealthChecks.UI.Configuration;
+using hf.api.Extensions;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace hf.api
 {
@@ -9,10 +13,7 @@ namespace hf.api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddApiVersioning(options =>
@@ -29,20 +30,40 @@ namespace hf.api
                 options.SubstituteApiVersionInUrl = true;
             });
 
+            builder.Services.AddHealthChecks();
+            //builder.Services.ConfigureHealthChecks(builder.Configuration);
+
+            builder.Services.AddCors(opt =>
+            {
+                opt.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
+            app.UseCors();
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
+
+            app.MapHealthChecks("/api/health", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+
+            app.UseHealthChecksUI(delegate (Options options) {
+                options.UIPath = "/healthcheck-ui";
+                //options.AddCustomStylesheet("./HealthCheck/Custom.css");
+            });
 
             app.MapControllers();
 
