@@ -1,7 +1,7 @@
-﻿using hf.api.Responses;
+﻿using hf.Api.Responses;
 using Microsoft.AspNetCore.Mvc;
 
-namespace hf.api.Controllers
+namespace hf.Api.Controllers
 {
     [Route("api/v{v:apiVersion}/[controller]")]
     [ApiController]

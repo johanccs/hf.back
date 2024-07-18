@@ -1,4 +1,4 @@
-﻿namespace hf.api.Responses
+﻿namespace hf.Api.Responses
 {
     public record ListProductResponse(
         int Id, 

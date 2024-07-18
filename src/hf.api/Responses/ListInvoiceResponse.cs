@@ -1,5 +1,5 @@
 ﻿
-namespace hf.api.Responses
+namespace hf.Api.Responses
 {
     public record ListInvoiceResponse(
         int Id,

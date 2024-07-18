@@ -2,10 +2,9 @@
 using Asp.Versioning;
 using HealthChecks.UI.Client;
 using HealthChecks.UI.Configuration;
-using hf.api.Extensions;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
-namespace hf.api
+namespace hf.Api
 {
     public class Program
     {

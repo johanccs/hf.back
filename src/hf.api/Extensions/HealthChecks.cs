@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace hf.api.Extensions
+namespace hf.Api.Extensions
 {
     public static class HealthChecks
     {

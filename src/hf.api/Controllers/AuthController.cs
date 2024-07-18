@@ -1,9 +1,9 @@
 ﻿using Asp.Versioning;
-using hf.api.Requests;
-using hf.api.Responses;
+using hf.Api.Requests;
+using hf.Api.Responses;
 using Microsoft.AspNetCore.Mvc;
 
-namespace hf.api.Controllers
+namespace hf.Api.Controllers
 {
     [ApiVersion(1)]
     [Route("api/v{v:apiVersion}/[controller]")]
