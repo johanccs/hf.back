@@ -3,6 +3,8 @@ using Asp.Versioning;
 using HealthChecks.UI.Client;
 using HealthChecks.UI.Configuration;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using hf.Infrastructure;
+using hf.Application;
 
 namespace hf.Api
 {
@@ -15,6 +17,8 @@ namespace hf.Api
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             builder.Services.AddApiVersioning(options =>
             {
                 options.DefaultApiVersion = new ApiVersion(1);
@@ -28,6 +32,10 @@ namespace hf.Api
                 options.GroupNameFormat = "'v'V";
                 options.SubstituteApiVersionInUrl = true;
             });
+
+            builder.Services.AddPersistence(builder.Configuration);
+            builder.Services.AddRepositories();
+            builder.Services.AddMediatR();
 
             builder.Services.AddHealthChecks();
             //builder.Services.ConfigureHealthChecks(builder.Configuration);

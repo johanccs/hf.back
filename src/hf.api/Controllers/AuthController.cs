@@ -1,6 +1,12 @@
 ﻿using Asp.Versioning;
+using AutoMapper;
 using hf.Api.Requests;
 using hf.Api.Responses;
+using hf.Application.Commands.Users.CreateUser;
+using hf.Application.Queries.Logins;
+using hf.Application.Queries.Users.GetUsers;
+using hf.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace hf.Api.Controllers
@@ -10,11 +16,32 @@ namespace hf.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        [HttpPost]
-        public async Task<IActionResult> Login([FromBody]LoginRequest  request)
-        {
+        #region fields
 
-            return Ok(new LoginResponse(true));
+        private readonly ISender _sender;
+        private readonly IMapper _mapper;
+
+        #endregion
+
+        #region Ctor
+        public AuthController(ISender sender, IMapper mapper)
+        {
+            _sender = sender;
+            _mapper = mapper;
+        }
+
+        #endregion
+
+        [Route("Login")]
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody]LoginRequest request)
+        {
+            var login = _mapper.Map<Login>(request);
+            var query = new LoginQuery(login);
+
+            var result = await _sender.Send(query);
+
+            return Ok(result);
         }
 
         [HttpGet]
@@ -23,12 +50,17 @@ namespace hf.Api.Controllers
             return Ok();
         }
 
-        [Route("Create")]
+        [Route("Register")]
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] NewUserRequest request)
+        public async Task<IActionResult> RegisterUser(
+            [FromBody] NewUserRequest request, CancellationToken cancellationToken)
         {
-            var response = new {Id=1};
-            return Created($"/auth/get/{response.Id}", response);
+            var domainUser = _mapper.Map<User>(request);
+            var command = new CreateUserCommand(domainUser);
+
+            var response = await _sender.Send(command,cancellationToken);
+
+            return Created($"/auth/get/{response.Value}", response);
         }
 
         [Route("Reset-Password")]
@@ -43,15 +75,11 @@ namespace hf.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var list = new List<CreatedUserResponse>()
-            {
-                new CreatedUserResponse(1, "Johan", "Potgieter", "johan.ccs@gmail.com", "username", true, DateTime.Now.ToString("yyyy/MM/dd"),false),
-                new CreatedUserResponse(1, "Nikki", "Heck", "nikki@gmail.com","username", false, DateTime.Now.ToString("yyyy/MM/dd"),true),
-                new CreatedUserResponse(1, "John", "Smith", "john@gmail.com", "username", false, DateTime.Now.ToString("yyyy/MM/dd"),true),
-                new CreatedUserResponse(1, "Malcolm", "Marx", "malcolm@gmail.com", "username", false, DateTime.Now.ToString("yyyy/MM/dd"),false),
-            };
+            var query = new GetUsersQuery();
 
-            return Ok(list);
+            var result = await _sender.Send(query);
+
+            return Ok(result.Value);
         }
     }
 }
