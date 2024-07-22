@@ -4,10 +4,10 @@ namespace hf.Domain.Abstractions
 {
     public interface IProductRepository
     {
-        Task<IEnumerable<Product?>> GetReadonlyAsync(CancellationToken cancellationToken = default);
+        Task<IEnumerable<Product?>> GetProductReadonlyAsync(CancellationToken cancellationToken = default);
 
-        Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<Product?> GetProductByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
-        Task AddAsync(Product product);
+        Task AddProductAsync(Product product, CancellationToken cancellationToken);
     }
 }

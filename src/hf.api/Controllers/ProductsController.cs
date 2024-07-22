@@ -1,4 +1,9 @@
-﻿using hf.Api.Responses;
+﻿using AutoMapper;
+using hf.Api.Requests;
+using hf.Application.Commands.Products.CreateProduct;
+using hf.Application.Queries.Products.GetProducts;
+using hf.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace hf.Api.Controllers
@@ -7,16 +12,47 @@ namespace hf.Api.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        #region readonly fields
+
+        private readonly ISender _sender;
+        private readonly IMapper _mapper;
+
+        #endregion
+
+        #region ctor
+
+        public ProductsController(ISender sender, IMapper mapper)
+        {
+            _sender = sender;
+            _mapper = mapper;
+        }
+
+        #endregion
+
+        #region methods
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var invoices = new List<ListProductResponse>() {
-                new ListProductResponse(1, "Asus Laptop", "Asus Tuff A15", 13900, 1,  "laptop.jpg"),
-                new ListProductResponse(1, "Mouse", "Logitec Mouse", 233.45m, 2, "mouse.jpg"),
-                new ListProductResponse(1, "Keyboard", "Mecer Keyboard", 329.00m,1, "keyboard.jpg"),
-            }.AsReadOnly();
+            var query = new GetProductsQuery();
+            
+            var result = await _sender.Send(query);
 
-            return Ok(invoices);
+            return Ok(result.Value);
         }
+
+        [HttpPost]
+        [Route("create-product")]
+        public async Task<IActionResult> CreateProduct([FromBody]NewProductRequest request)
+        {
+            var productEntity = _mapper.Map<Product>(request);
+            var productCommand = new CreateProductCommand(productEntity);
+
+            var result = await _sender.Send(productCommand);
+
+            return Ok(result);
+        }
+
+        #endregion
     }
 }

@@ -16,7 +16,7 @@ namespace hf.Application.Commands.Users.CreateUser
 
         public async Task<Result<Guid>> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            await _userRepository.AddAsync(command.User);
+            await _userRepository.AddAsync(command.User, cancellationToken);
             var saveResult = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             if (saveResult > 0)
