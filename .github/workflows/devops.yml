@@ -1,4 +1,4 @@
-name: Build Haefele Backend
+name: Build Haefele Backend Api
 
 on:
   push: 
