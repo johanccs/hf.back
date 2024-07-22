@@ -1,0 +1,24 @@
+name: Build Haefele Backend
+
+on:
+  push: 
+    branches: master
+  pull_request:
+    types: [opened, edited]
+    branches: master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .Net Core 8
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.x'
+
+      - name: Build with .net
+        run: dotnet build hf.api --configuration Release --output=${{env.DOTNET_ROOT}}.myapp

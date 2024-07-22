@@ -24,6 +24,7 @@ namespace hf.Infrastructure
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUnitOfWork>(
                 sp=>sp.GetRequiredService<AppDbContext>());

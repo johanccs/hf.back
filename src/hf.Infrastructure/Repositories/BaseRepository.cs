@@ -37,9 +37,9 @@ namespace hf.Infrastructure.Repositories
                 .FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
         }
 
-        public async Task AddAsync(T entity)
+        public async Task AddAsync(T entity, CancellationToken cancellationToken = default)
         {
-            await DbContext.AddAsync(entity);
+            await DbContext.AddAsync(entity, cancellationToken);
         }
 
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
