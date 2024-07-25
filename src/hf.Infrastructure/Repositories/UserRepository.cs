@@ -15,7 +15,7 @@ namespace hf.Infrastructure.Repositories
             await AddAsync(user, cancellationToken);
         }
 
-        public async Task<User?> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<User?> GetUserByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             return await GetByIdAsync(id, cancellationToken);
         }

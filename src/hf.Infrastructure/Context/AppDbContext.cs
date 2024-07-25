@@ -11,8 +11,10 @@ namespace hf.Infrastructure.Context
         {
         }
 
-        DbSet<User>Users { get; set; }
-        DbSet<Product>Products { get; set; }
+        public DbSet<User>Users { get; set; }
+        public DbSet<Product>Products { get; set; }
+        public DbSet<InvoiceHeader> InvoiceHeaders {  get; set; }
+        public DbSet<InvoiceLine>InvoiceLines { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

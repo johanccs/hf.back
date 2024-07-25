@@ -6,7 +6,7 @@ namespace hf.Domain.Abstractions
     {
         Task<IEnumerable<User?>> GetReadonlyAsync(CancellationToken cancellationToken = default);
 
-        Task<User?> GetUserByIdAsync(Guid id, CancellationToken cancellationToken=default);
+        Task<User?> GetUserByIdAsync(string id, CancellationToken cancellationToken=default);
 
         Task AddAsync(User user, CancellationToken cancellationToken);
 

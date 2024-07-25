@@ -15,7 +15,7 @@ namespace hf.Infrastructure.Repositories
             await AddAsync(product, cancellationToken);
         }
 
-        public async Task<Product?> GetProductByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Product?> GetProductByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             var result = await GetByIdAsync(id, cancellationToken);
 

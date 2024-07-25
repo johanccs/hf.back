@@ -1,5 +1,4 @@
 ﻿using hf.Domain.Abstractions;
-using hf.Domain.ValueObjects;
 
 namespace hf.Domain.Entities
 {
@@ -21,18 +20,18 @@ namespace hf.Domain.Entities
 
         #region ctor
 
-        public Product():base(new ProductId(Guid.NewGuid()).Id)
+        public Product():base(Guid.NewGuid())
         {
 
         }
 
         public Product(
-            ProductId productId,
+            Guid productId,
             string productName, 
             string productDescription, 
             decimal price, 
             int quantity, 
-            string imageUrl):base(productId.Id)
+            string imageUrl):base(productId)
         {
             ProductName = productName;
             ProductDescription = productDescription;

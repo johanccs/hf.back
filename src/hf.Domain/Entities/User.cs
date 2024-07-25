@@ -1,6 +1,5 @@
 ﻿using hf.Domain.Abstractions;
 using hf.Domain.DomainExceptions;
-using hf.Domain.ValueObjects;
 
 namespace hf.Domain.Entities
 {
@@ -16,13 +15,13 @@ namespace hf.Domain.Entities
         public bool AccountLocked { get; private set; }
 
 
-        public User():base(new UserId(Guid.NewGuid()).Id)
+        public User():base(Guid.NewGuid())
         {
 
         }
 
         public User(
-            UserId userId, 
+            Guid userId, 
             string name, 
             string surname,
             string email,
@@ -30,7 +29,7 @@ namespace hf.Domain.Entities
             string password,
             bool accountLocked, 
             bool isAdmin,
-            string dateRegistered) : base(userId.Id)
+            string dateRegistered) : base(userId)
         {
             Name = name;
             Surname = surname;

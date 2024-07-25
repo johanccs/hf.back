@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hf.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using hf.Infrastructure.Context;
 namespace hf.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240724123357_Remove_ValueObjects")]
+    partial class Remove_ValueObjects
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,9 +38,6 @@ namespace hf.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
 
                     b.ToTable("InvoiceHeaders");
@@ -49,7 +49,10 @@ namespace hf.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("InvoiceHeaderId")
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("InvoiceHeaderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Price")
@@ -140,13 +143,9 @@ namespace hf.Infrastructure.Migrations
 
             modelBuilder.Entity("hf.Domain.Entities.InvoiceLine", b =>
                 {
-                    b.HasOne("hf.Domain.Entities.InvoiceHeader", "InvoiceHeader")
+                    b.HasOne("hf.Domain.Entities.InvoiceHeader", null)
                         .WithMany("InvoiceLines")
-                        .HasForeignKey("InvoiceHeaderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("InvoiceHeader");
+                        .HasForeignKey("InvoiceHeaderId");
                 });
 
             modelBuilder.Entity("hf.Domain.Entities.InvoiceHeader", b =>

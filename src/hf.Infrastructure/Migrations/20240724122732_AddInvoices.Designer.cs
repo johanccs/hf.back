@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hf.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using hf.Infrastructure.Context;
 namespace hf.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240724122732_AddInvoices")]
+    partial class AddInvoices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,17 +31,16 @@ namespace hf.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClientId")
+                    b.Property<Guid>("ClientIdId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Date")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientIdId");
 
                     b.ToTable("InvoiceHeaders");
                 });
@@ -49,13 +51,16 @@ namespace hf.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("InvoiceHeaderId")
+                    b.Property<Guid>("ClientIdId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("InvoiceHeaderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid>("ProductIdId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
@@ -63,7 +68,11 @@ namespace hf.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClientIdId");
+
                     b.HasIndex("InvoiceHeaderId");
+
+                    b.HasIndex("ProductIdId");
 
                     b.ToTable("InvoiceLines");
                 });
@@ -138,15 +147,60 @@ namespace hf.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("hf.Domain.Entities.InvoiceLine", b =>
+            modelBuilder.Entity("hf.Domain.ValueObjects.ProductId", b =>
                 {
-                    b.HasOne("hf.Domain.Entities.InvoiceHeader", "InvoiceHeader")
-                        .WithMany("InvoiceLines")
-                        .HasForeignKey("InvoiceHeaderId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductId");
+                });
+
+            modelBuilder.Entity("hf.Domain.ValueObjects.UserId", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserId");
+                });
+
+            modelBuilder.Entity("hf.Domain.Entities.InvoiceHeader", b =>
+                {
+                    b.HasOne("hf.Domain.ValueObjects.UserId", "ClientId")
+                        .WithMany()
+                        .HasForeignKey("ClientIdId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("InvoiceHeader");
+                    b.Navigation("ClientId");
+                });
+
+            modelBuilder.Entity("hf.Domain.Entities.InvoiceLine", b =>
+                {
+                    b.HasOne("hf.Domain.ValueObjects.UserId", "ClientId")
+                        .WithMany()
+                        .HasForeignKey("ClientIdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("hf.Domain.Entities.InvoiceHeader", null)
+                        .WithMany("InvoiceLines")
+                        .HasForeignKey("InvoiceHeaderId");
+
+                    b.HasOne("hf.Domain.ValueObjects.ProductId", "ProductId")
+                        .WithMany()
+                        .HasForeignKey("ProductIdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ClientId");
+
+                    b.Navigation("ProductId");
                 });
 
             modelBuilder.Entity("hf.Domain.Entities.InvoiceHeader", b =>

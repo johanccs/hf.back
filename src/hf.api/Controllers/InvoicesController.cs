@@ -1,4 +1,11 @@
-﻿using hf.Api.Responses;
+﻿using AutoMapper;
+using hf.Api.MapperProfile;
+using hf.Api.Requests;
+using hf.Api.Responses;
+using hf.Application.Commands.Invoices.CreateInvoice;
+using hf.Application.Queries.Invoices.GetInvoices;
+using hf.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace hf.Api.Controllers
@@ -7,18 +14,46 @@ namespace hf.Api.Controllers
     [ApiController]
     public class InvoicesController : ControllerBase
     {
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        #region readonly fields
+
+        private readonly ISender _sender;
+        private readonly IMapper _mapper;
+
+        #endregion
+
+        #region ctor
+
+        public InvoicesController(ISender sender, IMapper mapper)
         {
-            var invoices = new List<ListInvoiceResponse>() { 
-                new ListInvoiceResponse(1,1, "Johan Potgieter", "Asus Laptop", "Asus Tuff A15", 1, 13900, "laptop.jpg"),
-                new ListInvoiceResponse(1,2, "Nikki Heck", "Mouse", "Logitec Mouse", 2, 233.45m, "mouse.jpg"),
-                new ListInvoiceResponse(1,1, "Johan Potgieter", "Keyboard", "Mecer Keyboard", 1, 329.00m, "keyboard.jpg"),
-            }.AsReadOnly();
-           
-            var result = invoices.Where(p => p.ClientId == id).ToList();
+            _sender = sender;
+            _mapper = mapper;
+        }
+
+        #endregion
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            var query = new GetInvoicesQuery(id);
+
+            var invoices = await _sender.Send(query);
+
+            var result = MappingProfileV2.MapTo(invoices.Value);
 
             return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("create-invoice")]
+        public async Task<IActionResult> CreateInvoice([FromBody] InvoiceHeaderRequest request)
+        {
+            var invoice = _mapper.Map<InvoiceHeader>(request);
+
+            var command = new CreateInvoiceCommand(invoice);
+
+            var result = await _sender.Send(command);
+
+            return Ok(invoice);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace hf.Application.Commands.Products.CreateProduct
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            _logger.LogInformation($"{result} Product(s) added to database");
+            _logger.LogInformation($"{result} Product added to database");
 
             return Result.Success<Guid>(product.Id);
         }

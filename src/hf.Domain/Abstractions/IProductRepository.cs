@@ -6,7 +6,7 @@ namespace hf.Domain.Abstractions
     {
         Task<IEnumerable<Product?>> GetProductReadonlyAsync(CancellationToken cancellationToken = default);
 
-        Task<Product?> GetProductByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<Product?> GetProductByIdAsync(string id, CancellationToken cancellationToken = default);
 
         Task AddProductAsync(Product product, CancellationToken cancellationToken);
     }

@@ -34,9 +34,7 @@ namespace hf.Application.Queries.Logins
                 return Result.Success(result);
             }
 
-            var r = Result.Failure(new User());
-
-            return r;
+            return Result.Failure(new User());
         }
 
         #endregion
