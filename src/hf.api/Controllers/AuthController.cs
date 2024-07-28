@@ -1,7 +1,6 @@
 ﻿using Asp.Versioning;
 using AutoMapper;
 using hf.Api.Requests;
-using hf.Api.Responses;
 using hf.Application.Commands.Users.CreateUser;
 using hf.Application.Queries.Logins;
 using hf.Application.Queries.Users.GetUsers;
@@ -12,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace hf.Api.Controllers
 {
     [ApiVersion(1)]
-    [Route("api/v{v:apiVersion}/[controller]")]
+     [Route("api/v{v:apiVersion}/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
