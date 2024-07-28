@@ -13,6 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hf.Infrastructure", "hf.Inf
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1642B44F-B3A0-447F-841A-1EAD1792282C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{317CC6F9-4F52-4C15-BCB9-87E4205AAA9E}"
+	ProjectSection(SolutionItems) = preProject
+		..\docs\scripts.sql = ..\docs\scripts.sql
+		..\docs\Technical Spec.docx = ..\docs\Technical Spec.docx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
