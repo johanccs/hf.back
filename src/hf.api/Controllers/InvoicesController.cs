@@ -53,7 +53,7 @@ namespace hf.Api.Controllers
 
             var result = await _sender.Send(command);
 
-            return Ok(invoice);
+            return Ok(result);
         }
     }
 }

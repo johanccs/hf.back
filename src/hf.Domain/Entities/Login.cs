@@ -1,4 +1,5 @@
 ﻿using hf.Domain.Abstractions;
+using System.ComponentModel.DataAnnotations;
 
 namespace hf.Domain.Entities
 {
@@ -8,7 +9,10 @@ namespace hf.Domain.Entities
         {
 
         }
+        [Required]
         public string Username { get; set; }
+
+        [Required]
         public string Password { get; set; }
 
         protected override bool Validate()

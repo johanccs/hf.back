@@ -1,4 +1,5 @@
 ﻿using hf.Application.Abstractions;
+using hf.Application.Helpers;
 using hf.Domain.Abstractions;
 using Microsoft.Extensions.Logging;
 
@@ -35,9 +36,16 @@ namespace hf.Application.Commands.Invoices.CreateInvoice
             await _invoiceRepository.AddInvoiceAsync(invoice, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            _logger.LogInformation($"{result} Invoice added to database");
-
-            return Result.Success<Guid>(invoice.Id);
+            if(result <0)
+            {
+                return Result.Failure<Guid>(
+                    new Error(ErrorDescriptions.Error500.ErrorCode, ErrorDescriptions.Error500.Description));
+            }
+            else
+            {
+                _logger.LogInformation($"{result} Invoice added to database");
+                return Result.Success<Guid>(invoice.Id);
+            }
         }
 
         #endregion

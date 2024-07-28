@@ -5,7 +5,7 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hf.Api", "hf.api\hf.Api.csproj", "{DBBDB540-7B84-4D4B-993C-A0A359B95FFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hf.Application", "hf.Application\hf.Application.csproj", "{FA641EC7-D757-40B9-967E-02287A036854}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hf.Application", "hf.Application\hf.Application.csproj", "{FA641EC7-D757-40B9-967E-02287A036854}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hf.Domain", "hf.Domain\hf.Domain.csproj", "{2712425B-8883-4DF4-8ACD-CD4158525FB4}"
 EndProject
