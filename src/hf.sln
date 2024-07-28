@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hf.Api", "hf.api\hf.Api.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hf.Application", "hf.Application\hf.Application.csproj", "{FA641EC7-D757-40B9-967E-02287A036854}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hf.Domain", "hf.Domain\hf.Domain.csproj", "{2712425B-8883-4DF4-8ACD-CD4158525FB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hf.Domain", "hf.Domain\hf.Domain.csproj", "{2712425B-8883-4DF4-8ACD-CD4158525FB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hf.Infrastructure", "hf.Infrastructure\hf.Infrastructure.csproj", "{04648BCE-773D-4AE0-8425-27515A79CB03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hf.Infrastructure", "hf.Infrastructure\hf.Infrastructure.csproj", "{04648BCE-773D-4AE0-8425-27515A79CB03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1642B44F-B3A0-447F-841A-1EAD1792282C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +38,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DBBDB540-7B84-4D4B-993C-A0A359B95FFC} = {1642B44F-B3A0-447F-841A-1EAD1792282C}
+		{FA641EC7-D757-40B9-967E-02287A036854} = {1642B44F-B3A0-447F-841A-1EAD1792282C}
+		{2712425B-8883-4DF4-8ACD-CD4158525FB4} = {1642B44F-B3A0-447F-841A-1EAD1792282C}
+		{04648BCE-773D-4AE0-8425-27515A79CB03} = {1642B44F-B3A0-447F-841A-1EAD1792282C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73A34AB8-9144-47BD-B287-CFD3C36254E1}

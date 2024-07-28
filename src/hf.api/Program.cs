@@ -5,6 +5,10 @@ using HealthChecks.UI.Configuration;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using hf.Infrastructure;
 using hf.Application;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using hf.Api.Helpers;
 
 namespace hf.Api
 {
@@ -48,6 +52,27 @@ namespace hf.Api
                 });
             });
 
+            builder.Services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+                        ValidIssuer = "https://localhost/5001",
+                        ValidAudience = "https://localhost/5001",
+                        //Supply Jwt signingkey through environment variables
+                        IssuerSigningKey =  new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Tokens.JWTBearerToken))
+                    };
+                });
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -58,6 +83,8 @@ namespace hf.Api
 
             app.UseCors();
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
