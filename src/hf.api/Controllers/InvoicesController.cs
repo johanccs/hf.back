@@ -3,6 +3,7 @@ using hf.Api.MapperProfile;
 using hf.Api.Requests;
 using hf.Application.Commands.Invoices.CreateInvoice;
 using hf.Application.Queries.Invoices.GetInvoices;
+using hf.Domain.Abstractions;
 using hf.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -46,6 +47,8 @@ namespace hf.Api.Controllers
 
         [HttpPost]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Route("create-invoice")]
         public async Task<IActionResult> CreateInvoice([FromBody] InvoiceHeaderRequest request)
         {

@@ -2,6 +2,7 @@
 using hf.Api.Requests;
 using hf.Application.Commands.Products.CreateProduct;
 using hf.Application.Queries.Products.GetProducts;
+using hf.Domain.Abstractions;
 using hf.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,8 @@ namespace hf.Api.Controllers
         #region methods
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get()
         {
             var query = new GetProductsQuery();
@@ -43,6 +46,8 @@ namespace hf.Api.Controllers
 
         [HttpPost]
         [Route("create-product")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CreateProduct([FromBody]NewProductRequest request)
         {
             var productEntity = _mapper.Map<Product>(request);
