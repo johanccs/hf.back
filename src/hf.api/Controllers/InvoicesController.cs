@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using hf.Api.MapperProfile;
 using hf.Api.Requests;
-using hf.Api.Responses;
 using hf.Application.Commands.Invoices.CreateInvoice;
 using hf.Application.Queries.Invoices.GetInvoices;
 using hf.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace hf.Api.Controllers
@@ -32,6 +32,7 @@ namespace hf.Api.Controllers
         #endregion
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> Get(string id)
         {
             var query = new GetInvoicesQuery(id);
@@ -44,6 +45,7 @@ namespace hf.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [Route("create-invoice")]
         public async Task<IActionResult> CreateInvoice([FromBody] InvoiceHeaderRequest request)
         {
